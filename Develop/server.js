@@ -21,7 +21,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // reads the db.json file and return all saved notes as JSON
-app.get("/api/notes", (req, res) => { 
+app.get('/api/notes', (req, res) => {
+    fs.readFile('Develop/db/db.json', 'utf8', (err, data) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
+
+        const notes = JSON.parse(data);
+        res.json(notes);
+    });
 });
 
 app.post('/api/notes', (req, res) => {
@@ -35,10 +44,10 @@ app.post('/api/notes', (req, res) => {
         const newNotes = {
             id: shortId,
             title: req.body.title,
-            description: req.body.description,
+            text: req.body.text,
         };
         
-        noteListItems.push(newNotes)
+        notes.push(newNotes);
 
         fs.writeFile('Develop/db/db.json', JSON.stringify(notes), 'utf8', (err) => {
             if (err) {
