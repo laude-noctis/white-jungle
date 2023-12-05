@@ -1,30 +1,31 @@
-const express = require("express");
-const fs = require("fs");
-const path = require("path");
+const express = require('express');
+const fs = require('fs');
+const path = require('path');
 
 const { v4: uuidv4 } = require('uuid');
+
 const generateShortId = () => {
     const fullId = uuidv4();
     const shortId = fullId.substr(0, 4);
     return shortId;
 };
+
 const shortId = generateShortId();
 
 const port = 3001;
 
 const app = express();
+app.use(express.static('Develop/public'));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-app.use(express.static("public"));
 
 // reads the db.json file and return all saved notes as JSON
 app.get("/api/notes", (req, res) => { 
 });
 
 app.post('/api/notes', (req, res) => {
-    fs.readFile('db.json', 'utf8', (err, data) => {
+    fs.readFile('Develop/db/db.json', 'utf8', (err, data) => {
         if (err) {
             console.error(err);
             return res.status(500).json({ error: 'Internal Server Error' });
@@ -37,7 +38,9 @@ app.post('/api/notes', (req, res) => {
             description: req.body.description,
         };
         
-        fs.writeFile('db.json', JSON.stringify(tasks), 'utf8', (err) => {
+        noteListItems.push(newNotes)
+
+        fs.writeFile('Develop/db/db.json', JSON.stringify(notes), 'utf8', (err) => {
             if (err) {
                 console.error(err);
                 return res.status(500).json({ error: 'Internal Server Error' });
