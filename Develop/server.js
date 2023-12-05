@@ -70,6 +70,35 @@ app.get ("*", (req, res) => {
     res.sendFile(path.join(__dirname, "./public/index.html"))
 });
 
+app.delete("/api/notes/:id", (req, res) => {
+    const noteId = req.params.id;
+  
+    fs.readFile('Develop/db/db.json', 'utf8', (err, data) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ error: 'Internal Server Error' });
+      }
+  
+      let notes = JSON.parse(data);
+      const noteIndex = notes.findIndex(note => note.id === noteId);
+  
+      if (noteIndex !== -1) {
+        notes.splice(noteIndex, 1);
+  
+        fs.writeFile('Develop/db/db.json', JSON.stringify(notes), 'utf8', (err) => {
+          if (err) {
+            console.error(err);
+            return res.status(500).json({ error: 'Internal Server Error' });
+          }
+  
+          res.json(notes);
+        });
+      } else {
+        res.status(404).json({ error: 'Note not found' });
+      }
+    });
+});
+
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
