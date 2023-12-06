@@ -12,7 +12,7 @@ const generateShortId = () => {
 
 const shortId = generateShortId();
 
-const port = 3001;
+const PORT = process.env.PORT || 3001;
 
 const app = express();
 app.use(express.static('public'));
@@ -100,5 +100,5 @@ app.delete("/api/notes/:id", (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Server is running on port http://localhost:${port}`);
+    console.log(`Server is running on port http://localhost:${PORT}`);
 });
