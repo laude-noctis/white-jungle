@@ -15,14 +15,14 @@ const shortId = generateShortId();
 const port = 3001;
 
 const app = express();
-app.use(express.static('Develop/public'));
+app.use(express.static('public'));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // reads the db.json file and return all saved notes as JSON
 app.get('/api/notes', (req, res) => {
-    fs.readFile('Develop/db/db.json', 'utf8', (err, data) => {
+    fs.readFile('./db/db.json', 'utf8', (err, data) => {
         if (err) {
             console.error(err);
             return res.status(500).json({ error: 'Internal Server Error' });
@@ -34,7 +34,7 @@ app.get('/api/notes', (req, res) => {
 });
 
 app.post('/api/notes', (req, res) => {
-    fs.readFile('Develop/db/db.json', 'utf8', (err, data) => {
+    fs.readFile('./db/db.json', 'utf8', (err, data) => {
         if (err) {
             console.error(err);
             return res.status(500).json({ error: 'Internal Server Error' });
@@ -49,7 +49,7 @@ app.post('/api/notes', (req, res) => {
         
         notes.push(newNotes);
 
-        fs.writeFile('Develop/db/db.json', JSON.stringify(notes), 'utf8', (err) => {
+        fs.writeFile('./db/db.json', JSON.stringify(notes), 'utf8', (err) => {
             if (err) {
                 console.error(err);
                 return res.status(500).json({ error: 'Internal Server Error' });
@@ -100,5 +100,5 @@ app.delete("/api/notes/:id", (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+    console.log(`Server is running on port http://localhost:${port}`);
 });
