@@ -1,7 +1,1 @@
-[
-    {
-    "id": "3r4t",
-    "title": "Test Title",
-    "text":"Test text"
-    }
-]
+[{"id":"3r4t","title":"Test Title","text":"Test text"},{"id":"5e7c","title":"Grocery list","text":"grapes\n"},{"id":"5e7c","title":"Make dinner","text":"tonight"}]
